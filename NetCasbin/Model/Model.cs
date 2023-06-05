@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using NetCasbin.Util;
 
 namespace NetCasbin.Model
 {
     public class Model : Policy
     {
-        private static readonly IDictionary<string, string> _sectionNameMap = new Dictionary<string, string>() {
-            { PermConstants.Section.RequestSection, PermConstants.Section.RequestSectionName},
-            { PermConstants.Section.PolicySection, PermConstants.Section.PolicySectionName},
-            { PermConstants.Section.RoleSection, PermConstants.Section.RoleSectionName},
-            { PermConstants.Section.PolicyEffectSection, PermConstants.Section.PolicyEffectSectionName},
-            { PermConstants.Section.MatcherSection, PermConstants.Section.MatcherSectionName}
-        };
+        private static readonly IDictionary<string, string> _sectionNameMap = new ConcurrentDictionary<string, string>() { };
+
+        static Model()
+        {
+            _sectionNameMap.Add(PermConstants.Section.RequestSection, PermConstants.Section.RequestSectionName);
+            _sectionNameMap.Add(PermConstants.Section.PolicySection, PermConstants.Section.PolicySectionName);
+            _sectionNameMap.Add(PermConstants.Section.RoleSection, PermConstants.Section.RoleSectionName);
+            _sectionNameMap.Add(PermConstants.Section.PolicyEffectSection, PermConstants.Section.PolicyEffectSectionName);
+            _sectionNameMap.Add(PermConstants.Section.MatcherSection, PermConstants.Section.MatcherSectionName);
+        }
 
         /// <summary>
         /// Creates a model.

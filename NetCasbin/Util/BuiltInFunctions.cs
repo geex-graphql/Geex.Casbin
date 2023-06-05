@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -208,7 +209,7 @@ namespace NetCasbin.Util
         /// <returns>The function.</returns>
         internal static GFunction GenerateGFunction(string name, IRoleManager roleManager)
         {
-            var resultCache = new Dictionary<string, bool>();
+            var resultCache = new ConcurrentDictionary<string, bool>();
 
             bool GFunction(string subject1, string subject2, string domain = null)
             {

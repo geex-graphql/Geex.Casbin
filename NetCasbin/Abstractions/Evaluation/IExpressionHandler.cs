@@ -10,7 +10,7 @@ namespace NetCasbin.Evaluation
 
         public IReadOnlyDictionary<string, int> PolicyTokens { get; }
 
-        public IDictionary<string, Parameter> Parameters { get; } 
+        public IDictionary<string, Parameter> Parameters { get; }
 
         public void SetFunction(string name, Delegate function);
 

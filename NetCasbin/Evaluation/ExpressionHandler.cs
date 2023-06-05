@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using DynamicExpresso;
@@ -10,8 +11,8 @@ namespace NetCasbin.Evaluation
 {
     public class ExpressionHandler : IExpressionHandler
     {
-        private readonly IDictionary<Type, IExpressionCache> _cachePool
-            = new Dictionary<Type, IExpressionCache>();
+        private readonly ConcurrentDictionary<Type, IExpressionCache> _cachePool
+            = new ConcurrentDictionary<Type, IExpressionCache>();
 
         private readonly FunctionMap _functionMap = FunctionMap.LoadFunctionMap();
         private readonly Model.Model _model;
@@ -47,7 +48,7 @@ namespace NetCasbin.Evaluation
         public IReadOnlyDictionary<string, int> PolicyTokens { get; }
 
         public IDictionary<string, Parameter> Parameters { get; }
-            = new Dictionary<string, Parameter>();
+            = new ConcurrentDictionary<string, Parameter>();
 
         public void SetFunction(string name, Delegate function)
         {
@@ -409,7 +410,6 @@ namespace NetCasbin.Evaluation
             foreach (string token in RequestTokens.Keys)
             {
                 object requestValue = requestValues?[RequestTokens[token]];
-
                 if (Parameters.ContainsKey(token))
                 {
                     if (requestValue is not null)
@@ -419,7 +419,7 @@ namespace NetCasbin.Evaluation
                 }
                 else
                 {
-                    Parameters.Add(token, new Parameter(token, requestValue ?? string.Empty));
+                    Parameters[token] = new Parameter(token, requestValue ?? string.Empty);
                 }
 
                 _orderedParameters[RequestTokens[token]] = Parameters[token];
@@ -442,7 +442,7 @@ namespace NetCasbin.Evaluation
                 }
                 else
                 {
-                    Parameters.Add(token, new Parameter(token, policyValue ?? string.Empty));
+                    Parameters[token] = new Parameter(token, policyValue ?? string.Empty);
                 }
 
                 _orderedParameters[PolicyTokens[token] + requestCount] = Parameters[token];

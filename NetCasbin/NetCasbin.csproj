@@ -23,6 +23,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PublishDocumentationFile>true</PublishDocumentationFile>
     <PublishReferencesDocumentationFiles>true</PublishReferencesDocumentationFiles>
+    <Version>13.0.21</Version>
+    <PackageOutputPath>\\kuforedev\shared\dev_packages</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb;.xml</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <PropertyGroup>
